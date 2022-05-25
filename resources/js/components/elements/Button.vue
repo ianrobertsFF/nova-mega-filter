@@ -22,7 +22,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
     .btn-unselected {
         background-color: var(--primary-50);

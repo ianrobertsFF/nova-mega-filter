@@ -30,7 +30,7 @@
 
         </div>
 
-        <CollapseTransition class="mega-filter__columns" v-if="hasColumns">
+        <div class="mega-filter__columns" v-if="hasColumns">
 
             <Section v-if="sections.columns"
                      :title="settings.columnsSectionTitle"
@@ -56,18 +56,18 @@
 
             </Section>
 
-        </CollapseTransition>
+        </div>
 
-        <CollapseTransition class="mega-filter__filters">
+        <div class="mega-filter__filters" v-if="hasFilters && this.sections.filters">
 
-            <CollapseTransition v-if="hasFilters && this.sections.filters">
+
 
                 <Section v-if="sections.filters"
                          :title="settings.filtersSectionTitle"
                          :reset-label="settings.filtersResetLinkTitle"
                          @reset="clearSelectedFilters">
 
-                    <FadeTransition tag="card" group :duration="100"
+                    <div
                                     class="filters w-full border border-50 bg-40 shadow-none p-4 flex flex-wrap justify-between">
 
                         <component class="flex flex-col inline-flex"
@@ -80,15 +80,15 @@
                                    @input="filterChanged"
                                    @change="filterChanged"/>
 
-                    </FadeTransition>
+                    </div>
 
                 </Section>
 
-            </CollapseTransition>
 
-        </CollapseTransition>
 
-        <CollapseTransition class="mega-filter__actions" v-if="hasActions">
+        </div>
+
+        <div class="mega-filter__actions" v-if="hasActions">
 
             <Section v-if="sections.actions" :title="settings.actionsSectionTitle">
 
@@ -138,9 +138,9 @@
 
             </Section>
 
-        </CollapseTransition>
+        </div>
 
-        <portal to="modals" transition="fade-transition">
+        <Teleport to="modals">
 
             <component v-if="confirmActionModalOpened"
                        class="text-left"
@@ -153,26 +153,24 @@
                        @confirm="executeAction"
                        @close="closeConfirmationModal"/>
 
-        </portal>
+        </Teleport>
 
     </card>
 
 </template>
 
 <script>
-
-    import { CollapseTransition, FadeTransition } from 'vue2-transitions'
-    import { Filterable, mapProps } from 'laravel-nova'
+    import { mapProps } from 'laravel-nova'
     import Section from './elements/Section'
     import Button from './elements/Button'
-    import HandlesActions from '~~nova~~/mixins/HandlesActions'
-    import { escapeUnicode } from '~~nova~~/util/escapeUnicode'
+    import {Filterable, HandlesActions} from "@/mixins";
+    import { escapeUnicode } from '@/util/escapeUnicode'
     import _ from 'lodash'
 
     export default {
         name: 'MegaFilter',
         mixins: [ Filterable, HandlesActions ],
-        components: { Button, FadeTransition, CollapseTransition, Section },
+        components: { Button, Section },
         props: {
             card: { type: Object },
             ...mapProps([
@@ -561,7 +559,7 @@
 
 </script>
 
-<style lang="scss">
+<style scoped>
 
     .mega-filter {
 
